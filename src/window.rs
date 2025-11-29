@@ -1,5 +1,5 @@
 use crossterm::event::{self, Event};
-use ratatui::{Frame, text::Text, widgets::{self, Borders}};
+use ratatui::{Frame, widgets::{self, Borders,Paragraph},layout::{Constraint,Direction,Layout,Rect}};
 
 pub fn show_window() {
     let mut terminal = ratatui::init();
@@ -13,8 +13,11 @@ pub fn show_window() {
 }
 
 fn draw(frame: &mut Frame) {
-    let text = Text::raw("Hello World!");
-    frame.render_widget(text, frame.area());
-    let test_widget = widgets::Block::default().borders(Borders::all());
-    frame.render_widget(test_widget, frame.area());
+    let layout = Layout::new(
+        Direction::Horizontal,
+        [Constraint::Length(10), Constraint::Min(0)],
+    )
+    .split(Rect::new(0, 0, 30, 10));
+    frame.render_widget(Paragraph::new("foo"), layout[0]);
+    frame.render_widget(widgets::Block::default().borders(Borders::all()), layout[1]);
 }
