@@ -13,6 +13,7 @@ pub struct TweetList  {
 pub struct tweet {
     pub header: String,
     pub author: String,
+    pub content: String,
     pub likes: i32,
     pub comments: i32,
     pub is_retweet: bool,

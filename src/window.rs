@@ -15,7 +15,7 @@ pub fn draw_frame(frame: &mut Frame, app: &mut nitter::App) {
     let items: Vec<ListItem> = app.tweet_list.items
         .iter()
         .map(|tweet| {
-            ListItem::new(format!("{} - {}", tweet.header, tweet.author))
+            ListItem::new(format!("{} \n {} \n Likes:{} Retweet:{}", tweet.header, tweet.author,tweet.likes,tweet.is_retweet))
         })
         .collect();
 
