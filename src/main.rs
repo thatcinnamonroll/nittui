@@ -17,21 +17,14 @@ fn main() {
             state: ListState::default(),
         }
         };
+        // this 0 is to select the first item in list
         app.tweet_list.state.select(Some(0));
     loop {
         terminal.draw(|f|window::draw_frame(f,&mut app)).expect("failed to draw frame");
         if let Ok(Event::Key(key)) = event::read(){
             match key.code {
-                    KeyCode::Up => {
-                        let i = app.tweet_list.state.selected().unwrap_or(0);
-                        let new = if i == 0 { app.tweet_list.items.len() - 1 } else { i - 1 };
-                        app.tweet_list.state.select(Some(new));
-                    }
-                    KeyCode::Down => {
-                        let i = app.tweet_list.state.selected().unwrap_or(0);
-                        let new = if i >= app.tweet_list.items.len() - 1 { 0 } else { i + 1 };
-                        app.tweet_list.state.select(Some(new));
-                    }
+                    KeyCode::Up => app.tweet_list.state.select_previous(),                  
+                    KeyCode::Down => app.tweet_list.state.select_next(),                    
                     KeyCode::End => break,
                     _ => {} 
             }
