@@ -2,6 +2,7 @@ use ratatui::widgets::ListState;
 
 pub struct App {
     pub tweet_list: TweetList,
+    pub opened_tweet: Option<tweet>,
 }
 
 pub struct TweetList  {
@@ -9,7 +10,7 @@ pub struct TweetList  {
     pub state: ListState,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct tweet {
     pub header: String,
     pub author: String,
