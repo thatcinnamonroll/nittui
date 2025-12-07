@@ -3,14 +3,13 @@ pub mod nitter;
 use crossterm::event::{self, Event, KeyCode};
 use ratatui::{Frame, layout::{Constraint,Direction,Layout,Rect}, symbols::braille, widgets::{self, Block, Borders, HighlightSpacing, List, ListItem, ListState, Padding, Paragraph, StatefulWidget, Widget, Wrap}};
 
+use crate::nitter::load_tweets;
+
 fn main() {
     let mut terminal = ratatui::init();
 
     // some dummy data
-    let tweets = vec![
-        nitter::tweet { header: "Hello World".to_string(), author: "Alice".to_string(),content: "Hello to nittui".to_string(), likes: 5, comments: 2, is_retweet: false },
-        nitter::tweet { header: "Rust is great".to_string(), author: "Bob".to_string(),content: "Rust is so cool :D".to_string(), likes: 10, comments: 3, is_retweet: true },
-    ];
+    let tweets = load_tweets();
     let mut app = nitter::App {
             opened_tweet: None,
             tweet_list: nitter::TweetList {

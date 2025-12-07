@@ -19,3 +19,10 @@ pub struct tweet {
     pub comments: i32,
     pub is_retweet: bool,
 }
+
+pub fn load_tweets() -> Vec<tweet> {
+    return vec![
+        tweet { header: "Hello World".to_string(), author: "Alice".to_string(),content: "Hello to nittui".to_string(), likes: 5, comments: 2, is_retweet: false },
+        tweet { header: "Rust is great".to_string(), author: "Bob".to_string(),content: "Rust is so cool :D".to_string(), likes: 10, comments: 3, is_retweet: true },
+    ];
+}
