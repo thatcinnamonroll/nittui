@@ -4,6 +4,8 @@ use crate::nitter::{self, tweet};
 
 const SELECTED_STYLE: Style = Style::new().bg(SLATE.c800).add_modifier(Modifier::BOLD);
 
+static EMPTY_COMMENTS: Vec<nitter::comment> = Vec::new();
+
 pub fn draw_list(frame: &mut Frame, area: Rect, app: &mut nitter::App) {
     let items: Vec<ListItem> = app.tweet_list.items
         .iter()
@@ -19,6 +21,14 @@ pub fn draw_list(frame: &mut Frame, area: Rect, app: &mut nitter::App) {
 }
 
 pub fn draw_tweet_view(frame: &mut Frame, area: Rect, tweet_data: Option<&nitter::tweet>) {
+    let chunks = Layout::default()
+        .direction(Direction::Vertical)
+        .constraints([
+            Constraint::Percentage(40),
+            Constraint::Percentage(60),
+        ])
+        .split(area);
+
     let tweet_content_block = Block::default()
         .title("Tweet")
         .borders(Borders::ALL);
@@ -28,7 +38,7 @@ pub fn draw_tweet_view(frame: &mut Frame, area: Rect, tweet_data: Option<&nitter
         let tweetLikes = t.likes;
         let isRetweet = t.is_retweet;
         let tweetAuthor = &t.author;
-        let tweetComentsCount = t.comments;
+        let tweetComentsCount = t.commentsCounter;
 
         let tweet_paragraph = Paragraph::new(format!(
             "{}\nLikes:{}  Comments:{}  Retweet:{}\n\n{}",
@@ -36,8 +46,20 @@ pub fn draw_tweet_view(frame: &mut Frame, area: Rect, tweet_data: Option<&nitter
         ))
         .block(tweet_content_block);
 
-        frame.render_widget(tweet_paragraph, area);
+        frame.render_widget(tweet_paragraph, chunks[0]);
 
+        let comments = tweet_data.map(|t| &t.comments).unwrap_or(&EMPTY_COMMENTS);
+        let items: Vec<ListItem> = comments
+            .iter()
+            .map(|c| ListItem::new(format!("{}\n{}\nLikes:{}", c.author, c.content, c.likes)))
+            .collect();
+
+        let comments_block = Block::default().title("Comments").borders(Borders::ALL);
+        let comments_list = List::new(items)
+            .block(comments_block)
+            .highlight_style(SELECTED_STYLE);
+
+         frame.render_widget(comments_list, chunks[1]);
     } else {
         frame.render_widget(
             Paragraph::new("Press Enter to open tweet").block(tweet_content_block),
