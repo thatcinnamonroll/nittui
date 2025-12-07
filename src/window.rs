@@ -1,6 +1,5 @@
-use crossterm::event::{self, Event, KeyCode};
-use ratatui::{Frame, layout::{self, Constraint, Direction, Layout, Rect}, style::{Color, Modifier, Style, Stylize, palette::tailwind::{BLUE, GREEN, SLATE}}, widgets::{self, Block, Borders, HighlightSpacing, List, ListItem, ListState, Padding, Paragraph, StatefulWidget, Widget, Wrap}};
-use crate::nitter::{self, tweet};
+use ratatui::{Frame, layout::{Constraint, Direction, Layout, Rect}, style::{Modifier, Style, palette::tailwind::{SLATE}}, widgets::{Block, Borders,List, ListItem,Paragraph}};
+use crate::nitter;
 
 const SELECTED_STYLE: Style = Style::new().bg(SLATE.c800).add_modifier(Modifier::BOLD);
 

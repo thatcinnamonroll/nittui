@@ -1,15 +1,14 @@
 mod window;
 pub mod nitter;
 use crossterm::event::{self, Event, KeyCode};
-use ratatui::{Frame, layout::{Constraint,Direction,Layout,Rect}, symbols::braille, widgets::{self, Block, Borders, HighlightSpacing, List, ListItem, ListState, Padding, Paragraph, StatefulWidget, Widget, Wrap}};
+use ratatui::widgets::ListState;
 
-use crate::nitter::load_tweets;
 
 fn main() {
     let mut terminal = ratatui::init();
 
     // some dummy data
-    let tweets = load_tweets();
+    let tweets = nitter::load_tweets();
     let mut app = nitter::App {
             opened_tweet: None,
             tweet_list: nitter::TweetList {
